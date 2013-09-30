@@ -1,9 +1,9 @@
 c:\users\itl\documents\visual studio 2010\Projects\RelayController\RelayController\bin\Debug\RelayController.exe
 c:\users\itl\documents\visual studio 2010\Projects\RelayController\RelayController\bin\Debug\RelayController.pdb
 c:\users\itl\documents\visual studio 2010\Projects\RelayController\RelayController\obj\x86\Debug\ResolveAssemblyReference.cache
-c:\users\itl\documents\visual studio 2010\Projects\RelayController\RelayController\obj\x86\Debug\RelayController.Form1.resources
 c:\users\itl\documents\visual studio 2010\Projects\RelayController\RelayController\obj\x86\Debug\RelayController.Properties.Resources.resources
 c:\users\itl\documents\visual studio 2010\Projects\RelayController\RelayController\obj\x86\Debug\GenerateResource.read.1.tlog
 c:\users\itl\documents\visual studio 2010\Projects\RelayController\RelayController\obj\x86\Debug\GenerateResource.write.1.tlog
 c:\users\itl\documents\visual studio 2010\Projects\RelayController\RelayController\obj\x86\Debug\RelayController.exe
 c:\users\itl\documents\visual studio 2010\Projects\RelayController\RelayController\obj\x86\Debug\RelayController.pdb
+c:\users\itl\documents\visual studio 2010\Projects\RelayController\RelayController\obj\x86\Debug\RelayController.Relay.resources
