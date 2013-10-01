@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO.Ports;
 using System.Collections;
+using System.Globalization;
 
 
 namespace RelayController
@@ -75,7 +76,7 @@ namespace RelayController
         private void button1_Click(object sender, EventArgs e)
         {
 
-            SendCommand(101);
+            SendCommand(0x65);
             
         }
 
@@ -99,8 +100,7 @@ namespace RelayController
 
         public void SendByte(byte toSend)
         {
-            byte[] command = new byte[1];
-            command[0] = toSend;
+            byte[] command = {toSend};
             if (sPort.IsOpen)
             {
                 sPort.Write(command, 0, 1);
@@ -157,13 +157,13 @@ namespace RelayController
 
         public void SendCommand(byte command)
         {
-            SendByte(92);
+            //SendByte(0x5c);
             SendByte(command);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            SendCommand(111);
+            SendCommand(0x6f);
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -193,13 +193,14 @@ namespace RelayController
             try
             {
                 toSend = Byte.Parse(textBox1.Text);
+                SendCommand(toSend);
             }
             catch (Exception ByteParse)
             {
                 MessageBox.Show(ByteParse.Message);
             }
                 
-            SendCommand(toSend);
+            
         }
 
         private void button10_Click(object sender, EventArgs e)
@@ -264,6 +265,22 @@ namespace RelayController
             sPort.Close();
         }
 
+        private void button14_Click(object sender, EventArgs e)
+        {
+            label2.Text = "Wait!";
+            System.Threading.Thread.Sleep(500);
+            SendCommand(110);
+            System.Threading.Thread.Sleep(1000);
+            SendCommand(101);
+            System.Threading.Thread.Sleep(1000);
+            SendCommand(108);
+            System.Threading.Thread.Sleep(1000);
+            SendCommand(102);
+            System.Threading.Thread.Sleep(500);
+            SendCommand(112);
+            label2.Text = "Start flashing NOW!";
+
+        }
 
     }
 }

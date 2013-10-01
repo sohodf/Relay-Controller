@@ -48,6 +48,8 @@
             this.button12 = new System.Windows.Forms.Button();
             this.button13 = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.button14 = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -96,7 +98,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(18, 401);
+            this.button3.Location = new System.Drawing.Point(166, 161);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 33);
             this.button3.TabIndex = 8;
@@ -106,7 +108,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(124, 401);
+            this.button4.Location = new System.Drawing.Point(247, 161);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 33);
             this.button4.TabIndex = 9;
@@ -259,12 +261,32 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Send Byte";
             // 
+            // button14
+            // 
+            this.button14.Location = new System.Drawing.Point(12, 345);
+            this.button14.Name = "button14";
+            this.button14.Size = new System.Drawing.Size(75, 33);
+            this.button14.TabIndex = 20;
+            this.button14.Text = "Burn";
+            this.button14.UseVisualStyleBackColor = true;
+            this.button14.Click += new System.EventHandler(this.button14_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(15, 381);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(0, 13);
+            this.label2.TabIndex = 21;
+            // 
             // Relay
             // 
             this.AcceptButton = this.button9;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(326, 457);
+            this.ClientSize = new System.Drawing.Size(343, 457);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.button14);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -309,6 +331,8 @@
         private System.Windows.Forms.Button button12;
         private System.Windows.Forms.Button button13;
         private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Button button14;
+        private System.Windows.Forms.Label label2;
     }
 }
 

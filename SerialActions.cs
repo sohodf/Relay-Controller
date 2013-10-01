@@ -10,27 +10,6 @@ namespace RelayController
 {
     class SerialActions
     {
-        public SerialPort OpenCom(string com)
-        {
-          SerialPort Port = new SerialPort();
-          Port.PortName = com;
-          Port.BaudRate = 9600;
-
-          // Set the read/write timeouts
-          Port.ReadTimeout = 500;
-          Port.WriteTimeout = 500;
-          try
-          {
-              Port.Open();
-              return Port;
-          }
-          catch (Exception e)
-          {
-              MessageBox.Show(e.Message);
-              return null;
-          }
-          
-        }
 
 
     }
