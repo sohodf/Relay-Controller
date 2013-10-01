@@ -19,7 +19,7 @@ namespace RelayController
         //global - active port
         SerialPort sPort = null;
         //global relay status
-        byte[] relayStatus = null;
+        bool[] status = new bool[8];
 
         public Relay()
         {
@@ -34,11 +34,7 @@ namespace RelayController
                 comboBox1.Items.Add(com);
             }
             comboBox1.SelectedIndex = 0;
-
-
-
-
-
+            
         }
 
         public SerialPort OpenCom(string com)
@@ -47,7 +43,7 @@ namespace RelayController
             Port.PortName = com;
             Port.BaudRate = 9600;
 
-            Port.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
+            //Port.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
 
             // Set the read/write timeouts
             Port.ReadTimeout = 500;
@@ -70,8 +66,8 @@ namespace RelayController
             sPort = OpenCom(activePort);
             if (sPort.IsOpen)
             {
-                byte[] getState= {1,0,1,0,1,1};
-                sPort.Write(getState, 0, 1);
+                //turn all realys off
+                SendCommand(110);
             }
 
         }
@@ -79,52 +75,55 @@ namespace RelayController
         private void button1_Click(object sender, EventArgs e)
         {
 
-            SendByte(92);
-            
-            SendByte(100);
-            
-            
-
-        }
-
-        public void DataReceivedHandler(object sender,
-                                        SerialDataReceivedEventArgs args)
-        {
-            SerialPort sp = (SerialPort)sender;
-            relayStatus = GetBytes(sp.ReadExisting());
-            BitArray bits = new BitArray(relayStatus);
-            bool[] status = new bool[8];
-            for (int i=0; i<8; i++)
-            {
-                status[i] = bits.Get(i);
-            }
-
-            if (status[0] == true)
-                label2.Text = "On";
-            else
-                label2.Text = "Off";
+            SendCommand(101);
             
         }
+
+        //public void DataReceivedHandler(object sender,
+        //                                SerialDataReceivedEventArgs args)
+        //{
+        //    SerialPort sp = (SerialPort)sender;
+        //    byte[] relayStatus = Encoding.Unicode.GetBytes(sp.ReadExisting());
+
+
+        //    string statusString = hex2binary(relayStatus[0].ToString());
+        //    BitArray bits = new BitArray(relayStatus);
+
+        //    for (int i = 0; i < 8; i++)
+        //    {
+        //        status[i] = bits.Get(i);
+        //    }
+
+
+        //}
 
         public void SendByte(byte toSend)
         {
             byte[] command = new byte[1];
             command[0] = toSend;
-            sPort.Write(command, 0, 1);
+            if (sPort.IsOpen)
+            {
+                sPort.Write(command, 0, 1);
+            }
+            else
+                MessageBox.Show("Port Closed");
+           
         }
+
+
 
         private void button3_Click(object sender, EventArgs e)
         {
             SendByte(92);
             SendByte(100);
-            GetRelayState();
+            //UpdateStatus();
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
             SendByte(92);
             SendByte(110);
-            GetRelayState();
+            //UpdateStatus();
         }
 
         public void GetRelayState()
@@ -137,6 +136,132 @@ namespace RelayController
             byte[] bytes = new byte[str.Length * sizeof(char)];
             System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
             return bytes;
+        }
+
+        public void UpdateStatus()
+        {
+            GetRelayState();
+
+            //if (status[0] == true)
+            //    label2.Text = "On";
+            //else
+            //    label2.Text = "Off";
+        }
+
+        private string hex2binary(string hexvalue)
+        {
+            string binaryval = "";
+            binaryval = Convert.ToString(Convert.ToInt32(hexvalue, 16), 2);
+            return binaryval;
+        }
+
+        public void SendCommand(byte command)
+        {
+            SendByte(92);
+            SendByte(command);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            SendCommand(111);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            SendCommand(102);
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            SendCommand(112);
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            SendCommand(108);
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            SendCommand(118);
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            byte toSend = new byte();
+            
+            try
+            {
+                toSend = Byte.Parse(textBox1.Text);
+            }
+            catch (Exception ByteParse)
+            {
+                MessageBox.Show(ByteParse.Message);
+            }
+                
+            SendCommand(toSend);
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int input = int.Parse(textBox1.Text);
+                input++;
+                textBox1.Text = input.ToString();
+            }
+            catch (Exception intParse)
+            {
+                MessageBox.Show(intParse.Message);
+            }
+
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int input = int.Parse(textBox1.Text);
+                input--;
+                textBox1.Text = input.ToString();
+            }
+            catch (Exception intParse)
+            {
+                MessageBox.Show(intParse.Message);
+            }
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int input = int.Parse(textBox1.Text);
+                input += 10;
+                textBox1.Text = input.ToString();
+            }
+            catch (Exception intParse)
+            {
+                MessageBox.Show(intParse.Message);
+            }
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int input = int.Parse(textBox1.Text);
+                input -= 10;
+                textBox1.Text = input.ToString();
+            }
+            catch (Exception intParse)
+            {
+                MessageBox.Show(intParse.Message);
+            }
+        }
+
+        private void Relay_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            sPort.Close();
         }
 
 
