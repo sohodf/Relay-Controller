@@ -279,6 +279,8 @@ namespace RelayController
             System.Threading.Thread.Sleep(500);
             SendCommand(112);
             label2.Text = "Start flashing NOW!";
+            System.Threading.Thread.Sleep(500);
+            label2.Text = "";
 
         }
 
