@@ -10,7 +10,7 @@ namespace RelayController
 {
     class SerialActions
     {
-        public static SerialPort OpenCom(string com)
+        public SerialPort OpenCom(string com)
         {
           SerialPort Port = new SerialPort();
           Port.PortName = com;
