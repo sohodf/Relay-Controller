@@ -66,6 +66,19 @@ namespace RelayController
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            try
+            {
+                if (sPort.IsOpen)
+                {
+                    sPort.Close();
+                }
+            }
+
+            catch (Exception serialPortOpen)
+            {
+                //do nothing
+            }
+
             activePort = comboBox1.GetItemText(comboBox1.SelectedItem);
             sPort = OpenCom(activePort);
             if (sPort.IsOpen)
