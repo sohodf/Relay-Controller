@@ -50,10 +50,20 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.button14 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.PowerConbo = new System.Windows.Forms.ComboBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.USBCombo = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.ResetCombo = new System.Windows.Forms.ComboBox();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // comboBox1
@@ -254,7 +264,7 @@
             this.groupBox4.Controls.Add(this.button12);
             this.groupBox4.Controls.Add(this.button10);
             this.groupBox4.Controls.Add(this.button11);
-            this.groupBox4.Location = new System.Drawing.Point(12, 221);
+            this.groupBox4.Location = new System.Drawing.Point(166, 228);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(158, 109);
             this.groupBox4.TabIndex = 19;
@@ -263,9 +273,9 @@
             // 
             // button14
             // 
-            this.button14.Location = new System.Drawing.Point(12, 345);
+            this.button14.Location = new System.Drawing.Point(9, 173);
             this.button14.Name = "button14";
-            this.button14.Size = new System.Drawing.Size(75, 33);
+            this.button14.Size = new System.Drawing.Size(110, 33);
             this.button14.TabIndex = 20;
             this.button14.Text = "Burn";
             this.button14.UseVisualStyleBackColor = true;
@@ -274,19 +284,132 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(15, 381);
+            this.label2.Location = new System.Drawing.Point(16, 209);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(0, 13);
             this.label2.TabIndex = 21;
+            // 
+            // PowerConbo
+            // 
+            this.PowerConbo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.PowerConbo.FormattingEnabled = true;
+            this.PowerConbo.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"});
+            this.PowerConbo.Location = new System.Drawing.Point(9, 39);
+            this.PowerConbo.Name = "PowerConbo";
+            this.PowerConbo.Size = new System.Drawing.Size(106, 21);
+            this.PowerConbo.Sorted = true;
+            this.PowerConbo.TabIndex = 22;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.label5);
+            this.groupBox5.Controls.Add(this.label2);
+            this.groupBox5.Controls.Add(this.ResetCombo);
+            this.groupBox5.Controls.Add(this.button14);
+            this.groupBox5.Controls.Add(this.label4);
+            this.groupBox5.Controls.Add(this.label3);
+            this.groupBox5.Controls.Add(this.USBCombo);
+            this.groupBox5.Controls.Add(this.PowerConbo);
+            this.groupBox5.Location = new System.Drawing.Point(18, 228);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(125, 215);
+            this.groupBox5.TabIndex = 23;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Prepare to Flash";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 23);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(70, 13);
+            this.label3.TabIndex = 23;
+            this.label3.Text = "Power Relay:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 72);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(62, 13);
+            this.label4.TabIndex = 25;
+            this.label4.Text = "USB Relay:";
+            // 
+            // USBCombo
+            // 
+            this.USBCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.USBCombo.FormattingEnabled = true;
+            this.USBCombo.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"});
+            this.USBCombo.Location = new System.Drawing.Point(9, 88);
+            this.USBCombo.Name = "USBCombo";
+            this.USBCombo.Size = new System.Drawing.Size(106, 21);
+            this.USBCombo.Sorted = true;
+            this.USBCombo.TabIndex = 24;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 120);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(68, 13);
+            this.label5.TabIndex = 27;
+            this.label5.Text = "Reset Relay:";
+            // 
+            // ResetCombo
+            // 
+            this.ResetCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ResetCombo.FormattingEnabled = true;
+            this.ResetCombo.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"});
+            this.ResetCombo.Location = new System.Drawing.Point(9, 136);
+            this.ResetCombo.Name = "ResetCombo";
+            this.ResetCombo.Size = new System.Drawing.Size(106, 21);
+            this.ResetCombo.Sorted = true;
+            this.ResetCombo.TabIndex = 26;
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(166, 348);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(156, 95);
+            this.listBox1.TabIndex = 24;
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             // 
             // Relay
             // 
             this.AcceptButton = this.button9;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(343, 457);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.button14);
+            this.ClientSize = new System.Drawing.Size(343, 479);
+            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -304,6 +427,8 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -333,6 +458,15 @@
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Button button14;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox PowerConbo;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox ResetCombo;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox USBCombo;
+        private System.Windows.Forms.ListBox listBox1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 

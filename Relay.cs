@@ -35,6 +35,9 @@ namespace RelayController
                 comboBox1.Items.Add(com);
             }
             comboBox1.SelectedIndex = 0;
+            PowerConbo.SelectedIndex = 7;
+            USBCombo.SelectedIndex = 0;
+            ResetCombo.SelectedIndex = 1;
             
         }
 
@@ -267,21 +270,40 @@ namespace RelayController
 
         private void button14_Click(object sender, EventArgs e)
         {
-            label2.Text = "Wait!";
-            System.Threading.Thread.Sleep(500);
-            SendCommand(110);
-            System.Threading.Thread.Sleep(1000);
-            SendCommand(101);
-            System.Threading.Thread.Sleep(1000);
-            SendCommand(108);
-            System.Threading.Thread.Sleep(1000);
-            SendCommand(102);
-            System.Threading.Thread.Sleep(500);
-            SendCommand(112);
-            label2.Text = "Start flashing NOW!";
-            System.Threading.Thread.Sleep(500);
-            label2.Text = "";
+            ArrayList args = new ArrayList();
+            args.Add(USBCombo.Text);
+            args.Add(PowerConbo.Text);
+            args.Add(ResetCombo.Text);
+            
+            backgroundWorker1.RunWorkerAsync(args);
+        }
 
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            ArrayList arguments = e.Argument as ArrayList;
+            
+            this.listBox1.Invoke(new Action(() => { listBox1.Items.Clear(); }));
+            this.listBox1.Invoke(new Action(() => {listBox1.Items.Add("Cutting all relays");}));
+            System.Threading.Thread.Sleep(500);
+            SendCommand(110); //all relays off
+            this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("USB on"); }));
+            System.Threading.Thread.Sleep(1000);
+            int usbPort = int.Parse((string)arguments[0]) + 100;
+            SendCommand((byte)usbPort);
+            this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Power On"); }));
+            System.Threading.Thread.Sleep(1000);
+            int powerPort = int.Parse((string)arguments[1]) + 100;
+            SendCommand((byte)powerPort);
+            this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Resetting"); }));
+            System.Threading.Thread.Sleep(1000);
+            int resetPort = int.Parse((string)arguments[2]) + 100;
+            SendCommand((byte)resetPort);
+            System.Threading.Thread.Sleep(500);
+            int resetPortOff = int.Parse((string)arguments[2]) + 110;
+            SendCommand((byte)resetPortOff);
+            this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Start flashing NOW"); }));
+            System.Threading.Thread.Sleep(2000);
+            //this.listBox1.Invoke(new Action(() => { listBox1.Items.Clear(); }));
         }
 
     }
