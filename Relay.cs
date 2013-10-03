@@ -367,11 +367,11 @@ namespace RelayController
             System.Threading.Thread.Sleep(1000);
             int powerPort = int.Parse((string)arguments[1]) + 100;
             SendCommand((byte)powerPort);
-            this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Pressing reset for 10 seconds..."); }));
+            this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Pressing reset for 12 seconds..."); }));
             System.Threading.Thread.Sleep(1000);
             int resetPort = int.Parse((string)arguments[2]) + 100;
             SendCommand((byte)resetPort);
-            System.Threading.Thread.Sleep(10000);
+            System.Threading.Thread.Sleep(12000);
             int resetPortOff = int.Parse((string)arguments[2]) + 110;
             SendCommand((byte)resetPortOff);
             this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Relesed reset button"); }));
