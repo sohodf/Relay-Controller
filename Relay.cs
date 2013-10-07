@@ -21,6 +21,8 @@ namespace RelayController
         SerialPort sPort = null;
         //global relay status
         bool[] status = new bool[8];
+        //global - path to files to be flashed
+        string[] flsFiles = null;
 
         public Relay()
         {
@@ -116,14 +118,20 @@ namespace RelayController
 
         public void SendByte(byte toSend)
         {
-            byte[] command = {toSend};
-            if (sPort.IsOpen)
+            try
             {
-                sPort.Write(command, 0, 1);
+                byte[] command = { toSend };
+                if (sPort.IsOpen)
+                {
+                    sPort.Write(command, 0, 1);
+                }
+                else
+                    MessageBox.Show("Port Closed");
             }
-            else
-                MessageBox.Show("Port Closed");
-           
+            catch (Exception portExce)
+            {
+                MessageBox.Show(portExce.Message);
+            }
         }
 
 
@@ -283,41 +291,92 @@ namespace RelayController
 
         private void button14_Click(object sender, EventArgs e)
         {
-            ArrayList args = new ArrayList();
-            args.Add(USBCombo.Text);
-            args.Add(PowerCombo.Text);
-            args.Add(ResetCombo.Text);
-            if (!checkBox1.Checked)
-                backgroundWorker1.RunWorkerAsync(args);
+            
+            if (flsFiles == null)
+                listBox1.Items.Add("No fls files selected");
             else
-                backgroundWorker2.RunWorkerAsync(args);
+            {
+                CMD cli = new CMD(this);
+                ArrayList args = new ArrayList();
+                args.Add(USBCombo.Text);
+                args.Add(PowerCombo.Text);
+                args.Add(ResetCombo.Text);
+                args.Add(flsFiles);
+
+                if (checkBox1.Checked)
+                    backgroundWorker1.RunWorkerAsync(args);
+                else
+                    listBox1.Items.Add("Not implemented yet");
+                    //backgroundWorker2.RunWorkerAsync(args);
+            }
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             ArrayList arguments = e.Argument as ArrayList;
+            string[] files = (string[])arguments[3];
+            CMD cli = new CMD(this);
+
             
+
             this.listBox1.Invoke(new Action(() => { listBox1.Items.Clear(); }));
             this.listBox1.Invoke(new Action(() => {listBox1.Items.Add("Cutting all relays");}));
             System.Threading.Thread.Sleep(500);
             SendCommand(110); //all relays off
+            string burnCommand = "downloadtool -cu1 ";
+            foreach (string fls in files)
+                burnCommand += fls + " ";
+            this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Starting burn process."); }));
+            this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Do not interrupt!"); }));
+            this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Pressing reset");}));
+            System.Threading.Thread.Sleep(1000);
+            int resetPort = int.Parse((string)arguments[2]) + 100;
+            SendCommand((byte)resetPort);
+            System.Threading.Thread.Sleep(1000);
+            //do the actual burning
+            backgroundWorker3.RunWorkerAsync(burnCommand);
+            System.Threading.Thread.Sleep(2500);
             this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("USB on"); }));
             System.Threading.Thread.Sleep(1000);
             int usbPort = int.Parse((string)arguments[0]) + 100;
             SendCommand((byte)usbPort);
             this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Power On"); }));
-            System.Threading.Thread.Sleep(1000);
             int powerPort = int.Parse((string)arguments[1]) + 100;
             SendCommand((byte)powerPort);
-            this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Resetting"); }));
-            System.Threading.Thread.Sleep(1000);
-            int resetPort = int.Parse((string)arguments[2]) + 100;
+
+            this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Waiting 12 seconds"); }));
+            System.Threading.Thread.Sleep(12000);
+            this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Reset released"); }));
+            resetPort = int.Parse((string)arguments[2]) + 110;
             SendCommand((byte)resetPort);
-            System.Threading.Thread.Sleep(500);
-            int resetPortOff = int.Parse((string)arguments[2]) + 110;
-            SendCommand((byte)resetPortOff);
-            this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Start flashing NOW"); }));
-            System.Threading.Thread.Sleep(2000);
+            System.Threading.Thread.Sleep(1000);
+
+
+
+            //this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("USB on"); }));
+            //System.Threading.Thread.Sleep(1000);
+            //int usbPort = int.Parse((string)arguments[0]) + 100;
+            //SendCommand((byte)usbPort);
+            //this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Power On"); }));
+            //System.Threading.Thread.Sleep(1000);
+            //int powerPort = int.Parse((string)arguments[1]) + 100;
+            //SendCommand((byte)powerPort);
+            //this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Pressing reset for 12 seconds..."); }));
+            //System.Threading.Thread.Sleep(1000);
+            //int resetPort = int.Parse((string)arguments[2]) + 100;
+            //SendCommand((byte)resetPort);
+            //System.Threading.Thread.Sleep(12000);
+            //this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Reset complete"); }));
+
+            //this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Resetting"); }));
+            //System.Threading.Thread.Sleep(1000);
+            //int resetPort = int.Parse((string)arguments[2]) + 100;
+            //SendCommand((byte)resetPort);
+            //System.Threading.Thread.Sleep(500);
+            //int resetPortOff = int.Parse((string)arguments[2]) + 110;
+            //SendCommand((byte)resetPortOff);
+            //this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Start flashing NOW"); }));
+            //System.Threading.Thread.Sleep(2000);
             //this.listBox1.Invoke(new Action(() => { listBox1.Items.Clear(); }));
         }
 
@@ -377,6 +436,41 @@ namespace RelayController
             this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Relesed reset button"); }));
             this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Start flashing NOW"); }));
             System.Threading.Thread.Sleep(2000);
+        }
+
+        private void button21_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "FLS files (*.fls)|*.fls";
+            dialog.Title = "Select files to flash";
+            dialog.Multiselect = true;
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+                flsFiles = dialog.FileNames;
+            if (flsFiles == null)
+                return;
+           
+            //add double quotes.
+            //for (int i = 0; i < flsFiles.Length; i++)
+            //    flsFiles[i] = (char)34 + flsFiles[i] + (char)34;
+            
+        }
+
+        private void groupBox5_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void backgroundWorker3_DoWork(object sender, DoWorkEventArgs e)
+        {
+           
+            execute((string)e.Argument);
+        }
+
+        public void execute(string command)
+        {
+            CMD cli = new CMD(this);
+            cli.Execute(command);
         }
 
     }

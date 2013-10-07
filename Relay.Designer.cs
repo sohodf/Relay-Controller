@@ -52,11 +52,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.PowerCombo = new System.Windows.Forms.ComboBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.USBCombo = new System.Windows.Forms.ComboBox();
+            this.button21 = new System.Windows.Forms.Button();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.ResetCombo = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.USBCombo = new System.Windows.Forms.ComboBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
@@ -69,8 +71,9 @@
             this.button19 = new System.Windows.Forms.Button();
             this.button20 = new System.Windows.Forms.Button();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.backgroundWorker3 = new System.ComponentModel.BackgroundWorker();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -289,7 +292,7 @@
             // 
             // button14
             // 
-            this.button14.Location = new System.Drawing.Point(8, 209);
+            this.button14.Location = new System.Drawing.Point(9, 258);
             this.button14.Name = "button14";
             this.button14.Size = new System.Drawing.Size(110, 33);
             this.button14.TabIndex = 20;
@@ -326,6 +329,7 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.button21);
             this.groupBox5.Controls.Add(this.checkBox1);
             this.groupBox5.Controls.Add(this.label5);
             this.groupBox5.Controls.Add(this.label2);
@@ -335,49 +339,33 @@
             this.groupBox5.Controls.Add(this.label3);
             this.groupBox5.Controls.Add(this.USBCombo);
             this.groupBox5.Controls.Add(this.PowerCombo);
-            this.groupBox5.Location = new System.Drawing.Point(182, 301);
+            this.groupBox5.Location = new System.Drawing.Point(354, 73);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(135, 255);
+            this.groupBox5.Size = new System.Drawing.Size(135, 306);
             this.groupBox5.TabIndex = 23;
             this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Prepare to Flash";
+            this.groupBox5.Text = "Flash";
+            this.groupBox5.Enter += new System.EventHandler(this.groupBox5_Enter);
             // 
-            // label3
+            // button21
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 23);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(70, 13);
-            this.label3.TabIndex = 23;
-            this.label3.Text = "Power Relay:";
+            this.button21.Location = new System.Drawing.Point(9, 221);
+            this.button21.Name = "button21";
+            this.button21.Size = new System.Drawing.Size(110, 31);
+            this.button21.TabIndex = 29;
+            this.button21.Text = "Pick files";
+            this.button21.UseVisualStyleBackColor = true;
+            this.button21.Click += new System.EventHandler(this.button21_Click);
             // 
-            // label4
+            // checkBox1
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 72);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(62, 13);
-            this.label4.TabIndex = 25;
-            this.label4.Text = "USB Relay:";
-            // 
-            // USBCombo
-            // 
-            this.USBCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.USBCombo.FormattingEnabled = true;
-            this.USBCombo.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8"});
-            this.USBCombo.Location = new System.Drawing.Point(9, 88);
-            this.USBCombo.Name = "USBCombo";
-            this.USBCombo.Size = new System.Drawing.Size(106, 21);
-            this.USBCombo.Sorted = true;
-            this.USBCombo.TabIndex = 24;
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(19, 176);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(65, 17);
+            this.checkBox1.TabIndex = 28;
+            this.checkBox1.Text = "FFPCB?";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // label5
             // 
@@ -407,12 +395,49 @@
             this.ResetCombo.Sorted = true;
             this.ResetCombo.TabIndex = 26;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 72);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(62, 13);
+            this.label4.TabIndex = 25;
+            this.label4.Text = "USB Relay:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 23);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(70, 13);
+            this.label3.TabIndex = 23;
+            this.label3.Text = "Power Relay:";
+            // 
+            // USBCombo
+            // 
+            this.USBCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.USBCombo.FormattingEnabled = true;
+            this.USBCombo.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"});
+            this.USBCombo.Location = new System.Drawing.Point(9, 88);
+            this.USBCombo.Name = "USBCombo";
+            this.USBCombo.Size = new System.Drawing.Size(106, 21);
+            this.USBCombo.Sorted = true;
+            this.USBCombo.TabIndex = 24;
+            // 
             // listBox1
             // 
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(16, 485);
+            this.listBox1.Location = new System.Drawing.Point(354, 393);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(146, 95);
+            this.listBox1.Size = new System.Drawing.Size(135, 186);
             this.listBox1.TabIndex = 24;
             // 
             // backgroundWorker1
@@ -523,26 +548,20 @@
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "All Relays";
             // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(19, 176);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(65, 17);
-            this.checkBox1.TabIndex = 28;
-            this.checkBox1.Text = "FFPCB?";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
             // backgroundWorker2
             // 
             this.backgroundWorker2.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker2_DoWork);
+            // 
+            // backgroundWorker3
+            // 
+            this.backgroundWorker3.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker3_DoWork);
             // 
             // Relay
             // 
             this.AcceptButton = this.button9;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(343, 584);
+            this.ClientSize = new System.Drawing.Size(527, 584);
             this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox5);
@@ -606,7 +625,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox USBCombo;
-        private System.Windows.Forms.ListBox listBox1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.Button button15;
@@ -620,6 +638,10 @@
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.GroupBox groupBox9;
         private System.ComponentModel.BackgroundWorker backgroundWorker2;
+        private System.Windows.Forms.Button button21;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        public System.Windows.Forms.ListBox listBox1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker3;
     }
 }
 
