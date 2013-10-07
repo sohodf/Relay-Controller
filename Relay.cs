@@ -323,27 +323,33 @@ namespace RelayController
             this.listBox1.Invoke(new Action(() => {listBox1.Items.Add("Cutting all relays");}));
             System.Threading.Thread.Sleep(500);
             SendCommand(110); //all relays off
-            string burnCommand = "downloadtool -cu1 ";
+            string burnCommand = "downloadtool -cu2 ";
             foreach (string fls in files)
                 burnCommand += fls + " ";
             this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Starting burn process."); }));
             this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Do not interrupt!"); }));
-            this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Pressing reset");}));
+           
+            
+            this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Pressing reset"); }));
             System.Threading.Thread.Sleep(1000);
             int resetPort = int.Parse((string)arguments[2]) + 100;
             SendCommand((byte)resetPort);
-            System.Threading.Thread.Sleep(1000);
+
             //do the actual burning
             backgroundWorker3.RunWorkerAsync(burnCommand);
+
             System.Threading.Thread.Sleep(2500);
             this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("USB on"); }));
             System.Threading.Thread.Sleep(1000);
             int usbPort = int.Parse((string)arguments[0]) + 100;
             SendCommand((byte)usbPort);
+
             this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Power On"); }));
             int powerPort = int.Parse((string)arguments[1]) + 100;
             SendCommand((byte)powerPort);
+            System.Threading.Thread.Sleep(1000);
 
+            
             this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Waiting 12 seconds"); }));
             System.Threading.Thread.Sleep(12000);
             this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Reset released"); }));
