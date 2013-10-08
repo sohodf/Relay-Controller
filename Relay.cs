@@ -323,7 +323,7 @@ namespace RelayController
             this.listBox1.Invoke(new Action(() => {listBox1.Items.Add("Cutting all relays");}));
             System.Threading.Thread.Sleep(500);
             SendCommand(110); //all relays off
-            string burnCommand = "downloadtool -cu2 ";
+            string burnCommand = "downloadtool -cu1 ";
             foreach (string fls in files)
                 burnCommand += fls + " ";
             this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Starting burn process."); }));
