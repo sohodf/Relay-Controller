@@ -327,7 +327,7 @@ namespace RelayController
                 if (checkBox1.Checked)
                     backgroundWorker1.RunWorkerAsync(args);
                 else
-                    listBox1.Items.Add("Not implemented yet");
+                   Log("Not implemented yet");
                     //backgroundWorker2.RunWorkerAsync(args);
             }
         }
@@ -345,7 +345,7 @@ namespace RelayController
 
             for (int i = 0; i < NumOfRuns; i++)
             {
-                this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Starting iteration " + (i+1).ToString() + " out of " + NumOfRuns.ToString()); }));
+                Log("Starting iteration " + (i+1).ToString() + " out of " + NumOfRuns.ToString());
                 System.IO.File.AppendAllText(path, "===========================================================================================" + Environment.NewLine);
                 System.IO.File.AppendAllText(path, "Iteration number " + (i+1).ToString() + " out of " + NumOfRuns.ToString() + Environment.NewLine);
                 System.IO.File.AppendAllText(path, "===========================================================================================" + Environment.NewLine);
@@ -359,11 +359,11 @@ namespace RelayController
                 string burnCommand = "downloadtool -cu1 ";
                 foreach (string fls in files)
                     burnCommand += fls + " ";
-                this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Starting burn process."); }));
-                this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Do not interrupt!"); }));
+                Log("Starting burn process.");
+                Log("Do not interrupt!");
 
 
-                this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Pressing reset"); }));
+                Log("Pressing reset");
                 System.Threading.Thread.Sleep(1000);
                 int resetPort = int.Parse((string)arguments[2]) + 100;
                 SendCommand((byte)resetPort);
@@ -372,20 +372,20 @@ namespace RelayController
                 backgroundWorker3.RunWorkerAsync(burnCommand);
 
                 System.Threading.Thread.Sleep(2500);
-                this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("USB on"); }));
+                Log("USB on");
                 System.Threading.Thread.Sleep(1000);
                 int usbPort = int.Parse((string)arguments[0]) + 100;
                 SendCommand((byte)usbPort);
 
-                this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Power On"); }));
+                Log("Power On");
                 int powerPort = int.Parse((string)arguments[1]) + 100;
                 SendCommand((byte)powerPort);
                 System.Threading.Thread.Sleep(1000);
 
 
-                this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Waiting 12 seconds"); }));
+                Log("Waiting 12 seconds");
                 System.Threading.Thread.Sleep(12000);
-                this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Reset released"); }));
+                Log("Reset released");
                 resetPort = int.Parse((string)arguments[2]) + 110;
                 SendCommand((byte)resetPort);
                 System.Threading.Thread.Sleep(1000);
@@ -396,9 +396,9 @@ namespace RelayController
                 {
                     System.Threading.Thread.Sleep(10000);
                     timer += 10;
-                    this.listBox1.Invoke(new Action(() => { listBox1.Items.Add(timer.ToString() + " seconds have passed"); }));
-                    this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("waiting for flashing to complete"); }));
-                    this.listBox1.Invoke(new Action(() => { listBox1.SelectedIndex = listBox1.Items.Count -1 ; }));
+                    Log(timer.ToString() + " seconds have passed");
+                    Log("waiting for flashing to complete");
+                   
                                         
                 }
                 this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("flashing complete. waiting for phone to boot."); ; }));
@@ -411,8 +411,8 @@ namespace RelayController
                 System.Threading.Thread.Sleep(120000);
                 System.IO.File.AppendAllText(path, "adb devices response: " + Environment.NewLine + cli.ExecuteResponding("adb devices") + Environment.NewLine);
                 System.IO.File.AppendAllText(path, "===========================================================================================" + Environment.NewLine);
-                this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Finished iteration " + (i+1).ToString()); }));
-                this.listBox1.Invoke(new Action(() => { listBox1.SelectedIndex = listBox1.Items.Count - 1; }));
+                Log("Finished iteration " + (i+1).ToString());
+                
                 SendCommand(110); //cutting power and waiting 20 seconds before starting again
                 System.Threading.Thread.Sleep(20000);
 
@@ -543,6 +543,13 @@ namespace RelayController
             CMD cli = new CMD(this);
             cli.Execute(command);
         }
+
+        public void Log(string message)
+        {
+            this.listBox1.Invoke(new Action(() => { listBox1.Items.Add(message); }));
+            this.listBox1.Invoke(new Action(() => { listBox1.SelectedIndex = listBox1.Items.Count - 1; }));
+        }
+
 
     }
 }
