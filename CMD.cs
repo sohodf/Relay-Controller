@@ -35,8 +35,8 @@ namespace RelayController
             startInfo.CreateNoWindow = false;
 
             Process p = new Process();
-            p.ErrorDataReceived += cmd_Error;
-            p.OutputDataReceived += cmd_DataReceived;
+            //p.ErrorDataReceived += cmd_Error;
+            //p.OutputDataReceived += cmd_DataReceived;
             p.StartInfo = startInfo;
 
             p.Start();
@@ -50,8 +50,8 @@ namespace RelayController
         public string ExecuteResponding(string command)
         {
             Process p = new Process();
-            p.ErrorDataReceived += cmd_Error;
-            p.OutputDataReceived += cmd_DataReceived;
+            //p.ErrorDataReceived += cmd_Error;
+            //p.OutputDataReceived += cmd_DataReceived;
             ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
             startInfo.CreateNoWindow = true;
             startInfo.FileName = "cmd.exe";
@@ -79,15 +79,15 @@ namespace RelayController
         }
 
 
-        private void cmd_DataReceived(object sender, DataReceivedEventArgs e)
-        {
-            mw.listBox1.Invoke(new Action(() => { mw.listBox1.Items.Add(e.Data); }));
-        }
+        //private void cmd_DataReceived(object sender, DataReceivedEventArgs e)
+        //{
+        //    mw.listBox1.Invoke(new Action(() => { mw.listBox1.Items.Add(e.Data); }));
+        //}
 
-        private void cmd_Error(object sender, DataReceivedEventArgs e)
-        {
-            mw.listBox1.Invoke(new Action(() => { mw.listBox1.Items.Add(e.Data); }));
-        }
+        //private void cmd_Error(object sender, DataReceivedEventArgs e)
+        //{
+        //    mw.listBox1.Invoke(new Action(() => { mw.listBox1.Items.Add(e.Data); }));
+        //}
 
     }
 }

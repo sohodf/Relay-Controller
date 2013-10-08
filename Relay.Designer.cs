@@ -74,6 +74,8 @@
             this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.backgroundWorker3 = new System.ComponentModel.BackgroundWorker();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -292,7 +294,7 @@
             // 
             // button14
             // 
-            this.button14.Location = new System.Drawing.Point(9, 258);
+            this.button14.Location = new System.Drawing.Point(30, 274);
             this.button14.Name = "button14";
             this.button14.Size = new System.Drawing.Size(110, 33);
             this.button14.TabIndex = 20;
@@ -303,7 +305,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 209);
+            this.label2.Location = new System.Drawing.Point(37, 201);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(0, 13);
             this.label2.TabIndex = 21;
@@ -321,7 +323,7 @@
             "6",
             "7",
             "8"});
-            this.PowerCombo.Location = new System.Drawing.Point(9, 39);
+            this.PowerCombo.Location = new System.Drawing.Point(30, 31);
             this.PowerCombo.Name = "PowerCombo";
             this.PowerCombo.Size = new System.Drawing.Size(106, 21);
             this.PowerCombo.Sorted = true;
@@ -329,6 +331,8 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.textBox2);
+            this.groupBox5.Controls.Add(this.label6);
             this.groupBox5.Controls.Add(this.button21);
             this.groupBox5.Controls.Add(this.checkBox1);
             this.groupBox5.Controls.Add(this.label5);
@@ -339,9 +343,9 @@
             this.groupBox5.Controls.Add(this.label3);
             this.groupBox5.Controls.Add(this.USBCombo);
             this.groupBox5.Controls.Add(this.PowerCombo);
-            this.groupBox5.Location = new System.Drawing.Point(354, 73);
+            this.groupBox5.Location = new System.Drawing.Point(323, 73);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(135, 306);
+            this.groupBox5.Size = new System.Drawing.Size(166, 314);
             this.groupBox5.TabIndex = 23;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Flash";
@@ -349,7 +353,7 @@
             // 
             // button21
             // 
-            this.button21.Location = new System.Drawing.Point(9, 221);
+            this.button21.Location = new System.Drawing.Point(30, 237);
             this.button21.Name = "button21";
             this.button21.Size = new System.Drawing.Size(110, 31);
             this.button21.TabIndex = 29;
@@ -360,7 +364,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(19, 176);
+            this.checkBox1.Location = new System.Drawing.Point(49, 157);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(65, 17);
             this.checkBox1.TabIndex = 28;
@@ -370,7 +374,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 120);
+            this.label5.Location = new System.Drawing.Point(27, 112);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(68, 13);
             this.label5.TabIndex = 27;
@@ -389,7 +393,7 @@
             "6",
             "7",
             "8"});
-            this.ResetCombo.Location = new System.Drawing.Point(9, 136);
+            this.ResetCombo.Location = new System.Drawing.Point(30, 128);
             this.ResetCombo.Name = "ResetCombo";
             this.ResetCombo.Size = new System.Drawing.Size(106, 21);
             this.ResetCombo.Sorted = true;
@@ -398,7 +402,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 72);
+            this.label4.Location = new System.Drawing.Point(27, 64);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(62, 13);
             this.label4.TabIndex = 25;
@@ -407,7 +411,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 23);
+            this.label3.Location = new System.Drawing.Point(27, 15);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(70, 13);
             this.label3.TabIndex = 23;
@@ -426,7 +430,7 @@
             "6",
             "7",
             "8"});
-            this.USBCombo.Location = new System.Drawing.Point(9, 88);
+            this.USBCombo.Location = new System.Drawing.Point(30, 80);
             this.USBCombo.Name = "USBCombo";
             this.USBCombo.Size = new System.Drawing.Size(106, 21);
             this.USBCombo.Sorted = true;
@@ -435,9 +439,9 @@
             // listBox1
             // 
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(354, 393);
+            this.listBox1.Location = new System.Drawing.Point(182, 393);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(135, 186);
+            this.listBox1.Size = new System.Drawing.Size(307, 186);
             this.listBox1.TabIndex = 24;
             // 
             // backgroundWorker1
@@ -556,6 +560,22 @@
             // 
             this.backgroundWorker3.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker3_DoWork);
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(27, 185);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(130, 13);
+            this.label6.TabIndex = 29;
+            this.label6.Text = "Enter number of iterations:";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(54, 201);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(43, 20);
+            this.textBox2.TabIndex = 30;
+            // 
             // Relay
             // 
             this.AcceptButton = this.button9;
@@ -642,6 +662,8 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         public System.Windows.Forms.ListBox listBox1;
         private System.ComponentModel.BackgroundWorker backgroundWorker3;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label6;
     }
 }
 
