@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.IO.Ports;
 using System.Collections;
 using System.Globalization;
+using System.Threading;
 
 
 namespace RelayController
@@ -23,6 +24,8 @@ namespace RelayController
         bool[] status = new bool[8];
         //global - path to files to be flashed
         string[] flsFiles = null;
+        //global - flashResult
+        public string flashResult = "None done";
 
         public Relay()
         {
@@ -37,10 +40,11 @@ namespace RelayController
                 comboBox1.Items.Add(com);
             }
             comboBox1.SelectedIndex = 0;
-            PowerCombo.SelectedIndex = 7;
-            USBCombo.SelectedIndex = 0;
-            ResetCombo.SelectedIndex = 1;
+            PowerCombo.SelectedIndex = 4;
+            USBCombo.SelectedIndex = 5;
+            ResetCombo.SelectedIndex = 3;
             textBox2.Text = "1";
+            checkBox1.Checked = true;
             
         }
 
@@ -383,8 +387,8 @@ namespace RelayController
                 System.Threading.Thread.Sleep(1000);
 
 
-                Log("Waiting 12 seconds");
-                System.Threading.Thread.Sleep(12000);
+                Log("Waiting 20 seconds");
+                System.Threading.Thread.Sleep(20000);
                 Log("Reset released");
                 resetPort = int.Parse((string)arguments[2]) + 110;
                 SendCommand((byte)resetPort);
@@ -408,14 +412,16 @@ namespace RelayController
 
                 System.IO.File.AppendAllText(path, "Flashing finished on " + DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss") + Environment.NewLine);
                 //wait two minutes for device to boot
-                System.Threading.Thread.Sleep(120000);
-                System.IO.File.AppendAllText(path, "adb devices response: " + Environment.NewLine + cli.ExecuteResponding("adb devices") + Environment.NewLine);
+                //System.Threading.Thread.Sleep(120000);
+                System.IO.File.AppendAllText(path, "Flash result as reported by the flash tool is: " + flashResult);
                 System.IO.File.AppendAllText(path, "===========================================================================================" + Environment.NewLine);
                 Log("Finished iteration " + (i+1).ToString());
-                
-                SendCommand(110); //cutting power and waiting 20 seconds before starting again
-                System.Threading.Thread.Sleep(20000);
-
+                // Prepare for another iteration
+                if (NumOfRuns > 1)
+                {
+                    SendCommand(110); //cutting power and waiting 20 seconds before starting again
+                    System.Threading.Thread.Sleep(20000);
+                }
 
             }
             
@@ -497,11 +503,11 @@ namespace RelayController
             System.Threading.Thread.Sleep(1000);
             int powerPort = int.Parse((string)arguments[1]) + 100;
             SendCommand((byte)powerPort);
-            this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Pressing reset for 12 seconds..."); }));
+            this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Pressing reset for 20 seconds..."); }));
             System.Threading.Thread.Sleep(1000);
             int resetPort = int.Parse((string)arguments[2]) + 100;
             SendCommand((byte)resetPort);
-            System.Threading.Thread.Sleep(12000);
+            System.Threading.Thread.Sleep(20000);
             int resetPortOff = int.Parse((string)arguments[2]) + 110;
             SendCommand((byte)resetPortOff);
             this.listBox1.Invoke(new Action(() => { listBox1.Items.Add("Relesed reset button"); }));
@@ -534,14 +540,54 @@ namespace RelayController
 
         private void backgroundWorker3_DoWork(object sender, DoWorkEventArgs e)
         {
-            execute((string)e.Argument);
+           
+           int result = Execute((string)e.Argument);
+           
+            if (result == 0)
+            {
+               lock (flashResult)
+               {
+                   Monitor.Wait(flashResult);
+                   flashResult = "Flashing completed successfully";
+                   Monitor.Pulse(flashResult);
+               }
+
+            }
+            else if (result == 1)
+            {
+                lock (flashResult)
+                {
+                    Monitor.Wait(flashResult);
+                    flashResult = "Flashing did not succeed";
+                    Monitor.Pulse(flashResult);
+                }
+
+            }
+            else
+            {
+                lock (flashResult)
+                {
+                    Monitor.Wait(flashResult);
+                    flashResult = "Did not get an answer from the flash tool";
+                    Monitor.Pulse(flashResult);
+                }
+            }
+
+                    
         }
 
-        public void execute(string command)
+        public int Execute(string command)
         {
             
             CMD cli = new CMD(this);
-            cli.Execute(command);
+            return cli.ExecuteRespondingExitCode(command);
+        }
+
+        public int ExecuteResponding(string command)
+        {
+
+            CMD cli = new CMD(this);
+            return (cli.ExecuteRespondingExitCode(command));
         }
 
         public void Log(string message)
